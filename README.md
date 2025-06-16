@@ -3,6 +3,10 @@
 Welcome to `sh00k3ms-toolkit` — a beginner-friendly, growing collection of Python scripts focused on recon, automation, and data parsing.
 
 ---
+## 📃 License
+
+This project is licensed under the [MIT License](LICENSE).
+---
 
 ![Tool Preview](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)  
 Created with curiosity and caffeine by [Shookems](https://github.com/Shookems)
@@ -18,3 +22,4 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python main.py
+
