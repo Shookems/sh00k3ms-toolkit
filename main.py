@@ -1,3 +1,5 @@
+import git_push
+
 from modules.reflected_tester import run_reflected_tester
 
 def main():
@@ -13,3 +15,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+git_push.main()
