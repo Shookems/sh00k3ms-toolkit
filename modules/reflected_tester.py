@@ -1,6 +1,7 @@
 import requests
 import urllib.parse
 import csv
+import json
 import os
 from datetime import datetime
 from colorama import Fore, Style, init
@@ -14,6 +15,40 @@ def load_payloads():
 def parse_kv_string(data_str):
     return dict(urllib.parse.parse_qsl(data_str))
 
+def test_reflected_xss_json(url, json_str, payloads):
+    try:
+        base_json = json.loads(json_str)
+    except json.JSONDecodeError:
+        print(f"{Fore.YELLOW}[-] Invalid JSON input.")
+        return []
+
+    results = []
+    for key in base_json:
+        for payload in payloads:
+            new_json = base_json.copy()
+            new_json[key] = payload
+            try:
+                res = requests.post(
+                    url,
+                    json=new_json,
+                    headers={"Content-Type": "application/json"},
+                    timeout=10
+                )
+                if payload in res.text:
+                    print(f"{Fore.RED}[!] Reflected payload in JSON key '{key}': {payload}")
+                    results.append({
+                        "param": key,
+                        "payload": payload,
+                        "url": url,
+                        "reflected": True,
+                        "method": "POST-JSON"
+                    })
+                else:
+                    print(f"{Fore.GREEN}[+] Safe JSON key '{key}' with payload: {payload}")
+            except Exception as e:
+                print(f"{Fore.YELLOW}[!] Error on JSON POST {url}: {e}")
+
+    return results
 def test_reflected_xss_post(url, data_str, payloads):
     base_data = parse_kv_string(data_str)
     results = []
@@ -101,7 +136,7 @@ def save_results(results):
     os.makedirs("results", exist_ok=True)
     filename = f"results/reflected_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
     with open(filename, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["param", "payload", "url", "reflected"])
+        writer = csv.DictWriter(f, fieldnames=["param", "payload", "url", "reflected", "method"])
         writer.writeheader()
         writer.writerows(results)
     print(f"\n{Fore.CYAN}[✓] Results saved to {filename}")
@@ -109,14 +144,17 @@ def save_results(results):
 # Entry point for main.py
 def run_reflected_tester():
     url = input("Enter URL to test (include params for GET): ").strip()
-    method = input("Use GET or POST? [GET/POST]: ").strip().upper()
-
+    method = input("Use GET, POST, or POST-JSON? [GET/POST/JSON]: ").strip().upper()
+    
     payloads = load_payloads()
     results = []
 
     if method == "POST":
         data_str = input("Enter POST data (e.g. username=admin&password=123): ").strip()
         results = test_reflected_xss_post(url, data_str, payloads)
+    elif method == "JSON":
+        json_str = input("Enter raw JSON body (e.g. {\"search\": \"test\"}): ").strip()
+        results = test_reflected_xss_json(url, json_str, payloads)
     elif method == "GET":
         if "?" not in url:
             print(f"{Fore.YELLOW}[-] GET URL must include parameters.")
