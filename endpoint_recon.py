@@ -91,6 +91,11 @@ def run_recon(base_url):
 
     queue.join()
 
+def run_endpoint_recon():
+    print("Running endpoint recon...")
+    base_url = input("Enter a URL to scan: ").strip()
+    run_recon(base_url)
+
 def save_results_to_csv(filename="recon_results.csv"):
     with open(filename, mode='w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["parameter", "test_type", "payload", "status", "url"])

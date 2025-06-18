@@ -57,6 +57,11 @@ def write_to_csv(domain, whois_data, dns_data, output_file):
     except Exception as e:
         print(f"CSV write error: {e}")
 
+def run_domain_recon():
+    print("Running domain recon...")
+    # your original script logic here
+
+
 def main():
     args = get_args()
     whois_data = run_whois(args.domain)

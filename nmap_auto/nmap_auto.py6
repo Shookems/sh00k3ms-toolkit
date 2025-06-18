@@ -1,0 +1,40 @@
+import subprocess
+
+def get_targets():
+    targets = input("Enter one or more IPs/domains (comma-separated): ").strip()
+    return [t.strip() for t in targets.split(",") if t.strip()]
+
+def get_scan_type():
+    print("\nScan type:")
+    print("1. TCP")
+    print("2. UDP")
+    while True:
+        choice = input("Choose scan type (1 or 2): ").strip()
+        if choice in ("1", "2"):
+            return "tcp" if choice == "1" else "udp"
+        print("Invalid choice. Please enter 1 or 2.")
+
+def get_output_filename():
+    filename = input("Enter a name for the output file (without extension): ").strip()
+    return filename + ".txt"
+
+def run_nmap(targets, scan_type, output_file):
+    for target in targets:
+        if scan_type == "tcp":
+            cmd = ["nmap", "-p-", "-sS", "-A", "-T5", "-oN", output_file, target]
+        else:  # udp
+            cmd = ["nmap", "-sU", "-T5", "-oN", output_file, target]
+
+        print(f"\n[+] Running Nmap against {target} ({scan_type.upper()} scan)...")
+        subprocess.run(cmd)
+
+def main():
+    targets = get_targets()
+    scan_type = get_scan_type()
+    output_file = get_output_filename()
+    run_nmap(targets, scan_type, output_file)
+    print(f"\n[+] Scan(s) complete. Results saved to {output_file}")
+
+def run_nmap_auto():
+    main()
+

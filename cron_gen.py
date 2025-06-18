@@ -12,6 +12,10 @@ def english_to_cron(phrase):
     cleaned = phrase.strip().lower()
     return mappings.get(cleaned, None)
 
+def run_cron_gen():
+    print("Launching cron job generator...")
+    # your original script logic here
+
 def main():
     print("Welcome to the Cron Job Generator!\n")
     phrase = input("Enter a schedule (e.g. 'every day at 6am'): ")
