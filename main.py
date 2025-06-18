@@ -15,4 +15,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-git_push.main()
+    # Optional push-to-git prompt
+    if input("Would you like to push to Git now? [y/N]: ").lower() == "y":
+        import git_push
+        git_push.main()
