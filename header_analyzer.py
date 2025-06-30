@@ -45,5 +45,29 @@ def analyze_headers(url):
     except Exception as e:
         with lock:
             results.append({
+                "url": url,
+                "error": str(e),
+                "timestamp": datetime.utcnow().isoformat()
+            })
+        print(f"[!] Error analyzing {url}: {e}")
 
+def run_header_analyzer():
+    print("\n--- HTTP Header Analyzer ---")
+    urls = input("Enter comma-separated URLs: ").strip().split(",")
+    urls = [u.strip() for u in urls if u]
+
+    threads = []
+    for url in urls:
+        t = threading.Thread(target=analyze_headers, args=(url,))
+        t.start()
+        threads.append(t)
+
+    for t in threads:
+        t.join()
+
+    with open("header_results.txt", "w") as f:
+        for r in results:
+            f.write(str(r) + "\n")
+
+    print("\n[+] Header analysis complete. Results saved to header_results.txt.")
 

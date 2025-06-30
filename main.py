@@ -1,6 +1,6 @@
 from modules.reflected_tester import run_reflected_tester
 from endpoint_recon import run_endpoint_recon
-from cron_gen import run_cron_gen
+from cron_gen import run_cron_gen 
 from domain_recon import run_domain_recon
 from nmap_auto import run_nmap_scanner
 from tls_checker import run_tls_checker
@@ -20,16 +20,16 @@ def main():
     print("7. Run XSS & CSS Injection Checker")
     print("8. Deserialization Checker")
     print("9. SQL Injection Tester")
-    print("10. HTTP Header Analyzer")
+    print("H. HTTP Header Analyzer")
 
     try:
         choice = input("Select a tool: ")
 
         if choice == "1":
-            run_reflected_tester()
+            run_reflected_tester() 
         elif choice == "2":
-            run_endpoint_recon()
-        elif choice == "3":
+            run_endpoint_recon()   
+        elif choice == "3":  
             run_cron_gen()
         elif choice == "4":
             run_domain_recon()
@@ -37,17 +37,17 @@ def main():
             run_nmap_scanner()
         elif choice == "6":
             run_tls_checker()
-        elif choice.upper() == "7":
+        elif choice == "7":
             run_xss_css_checker()
-        elif choice.upper() == "8":
+        elif choice == "8":
             run_deserialization_checker()
-        elif choice.upper() == "9":
+        elif choice == "9":
             run_sqli_tester()
-	elif choice.upper() == "10":
-	    run_header_analyzer()
-
+        elif choice.upper() == "H":
+            run_header_analyzer()
         else:
             print("Invalid selection.")
+
     except KeyboardInterrupt:
         print("\n[!] User terminated the toolkit session.")
 
