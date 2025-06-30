@@ -1,0 +1,43 @@
+Starting Nmap 7.97 ( https://nmap.org ) at 2025-06-30 14:08 -0700
+Stats: 0:01:08 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 60.20% done; ETC: 14:10 (0:00:44 remaining)
+Stats: 0:01:10 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 62.45% done; ETC: 14:10 (0:00:41 remaining)
+Stats: 0:01:11 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 63.10% done; ETC: 14:10 (0:00:40 remaining)
+Stats: 0:01:11 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 63.35% done; ETC: 14:10 (0:00:40 remaining)
+Stats: 0:01:17 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 68.85% done; ETC: 14:10 (0:00:34 remaining)
+Stats: 0:01:17 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 68.90% done; ETC: 14:10 (0:00:34 remaining)
+Stats: 0:01:21 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 70.95% done; ETC: 14:10 (0:00:32 remaining)
+Stats: 0:01:21 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+Connect Scan Timing: About 71.20% done; ETC: 14:10 (0:00:32 remaining)
+Nmap scan report for www.evilsite.com (5.100.253.64)
+Host is up (0.22s latency).
+Not shown: 995 filtered tcp ports (no-response)
+PORT      STATE  SERVICE  VERSION
+20/tcp    closed ftp-data
+21/tcp    closed ftp
+80/tcp    open   http     nginx (reverse proxy)
+|_http-server-header: uPressPowerEdge
+|_http-title: Did not follow redirect to https://evilsite.com/
+443/tcp   open   ssl/http nginx (reverse proxy)
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|   h2
+|   http/1.1
+|   http/1.0
+|_  http/0.9
+|_http-title: Did not follow redirect to https://evilsite.com/
+| ssl-cert: Subject: commonName=evilsite.com
+| Subject Alternative Name: DNS:evilsite.com, DNS:www.evilsite.com
+| Not valid before: 2025-05-07T04:50:16
+|_Not valid after:  2025-08-05T04:50:15
+|_http-server-header: uPressPowerEdge
+35500/tcp closed unknown
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 147.35 seconds
