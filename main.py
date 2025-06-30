@@ -5,6 +5,7 @@ from domain_recon import run_domain_recon
 from nmap_auto import run_nmap_scanner
 from tls_checker import run_tls_checker
 from xss_css_checker import run_xss_css_checker
+from deserialization_checker import run_deserialization_checker
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -14,8 +15,9 @@ def main():
     print("4. Domain Recon Tool")
     print("5. Nmap Auto Scanner")
     print("6. TLS Checker")
-    print("X. Run XSS & CSS Injection Checker")
-    
+    print("7. Run XSS & CSS Injection Checker")
+    print("8. Deserialization Checker")
+        
     choice = input("Select a tool: ")
 
     if choice == "1":
@@ -30,8 +32,10 @@ def main():
         run_nmap_scanner()
     elif choice == "6":
         run_tls_checker()
-    elif choice.upper() == "X":
+    elif choice.upper() == "7":
         run_xss_css_checker()
+    elif choice.upper() == "8":
+        run_deserialization_checker()
     else:
         print("Invalid selection.")
 
