@@ -10,6 +10,7 @@ from sqli_tester import run_sqli_tester
 from header_analyzer import run_header_analyzer
 from csp_analyzer import run_csp_analyzer
 from open_redirect_checker import run_open_redirect_checker
+from jwt_cracker import run_jwt_cracker
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -25,6 +26,7 @@ def main():
     print("H. HTTP Header Analyzer")
     print("C. CSP Analyzer")
     print("R. Open Redirect Checker")
+    print("J. JWT Cracker")
 
     try:
         choice = input("Select a tool: ")
@@ -53,6 +55,8 @@ def main():
             run_csp_analyzer()
         elif choice.upper() == "R":
             run_open_redirect_checker()
+        elif choice.upper() == "J":
+            run_jwt_cracker()
         else:
             print("Invalid selection.")
 
