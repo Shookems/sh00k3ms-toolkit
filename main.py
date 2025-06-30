@@ -9,6 +9,7 @@ from deserialization_checker import run_deserialization_checker
 from sqli_tester import run_sqli_tester
 from header_analyzer import run_header_analyzer
 from csp_analyzer import run_csp_analyzer
+from open_redirect_checker import run_open_redirect_checker
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -23,15 +24,16 @@ def main():
     print("9. SQL Injection Tester")
     print("H. HTTP Header Analyzer")
     print("C. CSP Analyzer")
+    print("R. Open Redirect Checker")
 
     try:
         choice = input("Select a tool: ")
 
         if choice == "1":
-            run_reflected_tester() 
+            run_reflected_tester()
         elif choice == "2":
-            run_endpoint_recon()   
-        elif choice == "3":  
+            run_endpoint_recon()
+        elif choice == "3":
             run_cron_gen()
         elif choice == "4":
             run_domain_recon()
@@ -49,6 +51,8 @@ def main():
             run_header_analyzer()
         elif choice.upper() == "C":
             run_csp_analyzer()
+        elif choice.upper() == "R":
+            run_open_redirect_checker()
         else:
             print("Invalid selection.")
 
