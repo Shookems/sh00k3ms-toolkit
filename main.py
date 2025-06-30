@@ -7,6 +7,7 @@ from tls_checker import run_tls_checker
 from xss_css_checker import run_xss_css_checker
 from deserialization_checker import run_deserialization_checker
 from sqli_tester import run_sqli_tester
+from header_analyzer import run_header_analyzer
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -19,6 +20,7 @@ def main():
     print("7. Run XSS & CSS Injection Checker")
     print("8. Deserialization Checker")
     print("9. SQL Injection Tester")
+    print("10. HTTP Header Analyzer")
 
     try:
         choice = input("Select a tool: ")
@@ -41,6 +43,9 @@ def main():
             run_deserialization_checker()
         elif choice.upper() == "9":
             run_sqli_tester()
+	elif choice.upper() == "10":
+	    run_header_analyzer()
+
         else:
             print("Invalid selection.")
     except KeyboardInterrupt:
