@@ -8,6 +8,7 @@ from xss_css_checker import run_xss_css_checker
 from deserialization_checker import run_deserialization_checker
 from sqli_tester import run_sqli_tester
 from header_analyzer import run_header_analyzer
+from csp_analyzer import run_csp_analyzer
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -21,6 +22,7 @@ def main():
     print("8. Deserialization Checker")
     print("9. SQL Injection Tester")
     print("H. HTTP Header Analyzer")
+    print("C. CSP Analyzer")
 
     try:
         choice = input("Select a tool: ")
@@ -45,6 +47,8 @@ def main():
             run_sqli_tester()
         elif choice.upper() == "H":
             run_header_analyzer()
+        elif choice.upper() == "C":
+            run_csp_analyzer()
         else:
             print("Invalid selection.")
 
