@@ -4,6 +4,7 @@ from cron_gen import run_cron_gen
 from domain_recon import run_domain_recon
 from nmap_auto.nmap_auto import run_nmap_auto
 from tls_checker import run_tls_checker
+from xss_css_checker import run_xss_css_checker
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -27,6 +28,9 @@ def main():
         run_nmap_auto()
     elif choice == "6":
         run_tls_checker()
+    elif choice == "X":
+        run_xss_css_checker()
+
     else:
         print("Invalid selection.")
 
