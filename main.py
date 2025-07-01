@@ -17,6 +17,7 @@ from tabnabbing_checker import run_tabnabbing_checker
 from iframe_worker_checker import run_iframe_worker_checker
 from storage_service_checker import run_storage_service_checker
 from js_injector import run_js_injector
+from aws_cred_theft_detector import run_aws_cred_theft_detector
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -39,6 +40,7 @@ def main():
     print("I. Iframe & WebWorker Detector")
     print("S. Storage & ServiceWorker Scanner")
     print("X. JS Injector")
+    print("A. AWS Credential Theft Detector")
     
     try:
         choice = input("Select a tool: ")
@@ -81,6 +83,8 @@ def main():
             run_storage_service_checker()
         elif choice.upper() == "X":
             run_js_injector()
+        elif choice.upper() == "A":
+            run_aws_cred_theft_detector()
         else:
             print("Invalid selection.")  
 
