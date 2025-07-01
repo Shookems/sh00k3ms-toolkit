@@ -11,6 +11,12 @@ from header_analyzer import run_header_analyzer
 from csp_analyzer import run_csp_analyzer
 from open_redirect_checker import run_open_redirect_checker
 from jwt_cracker import run_jwt_cracker
+from subdomain_analyzer import run_subdomain_analyzer
+from cdn_edge_mapper import run_cdn_edge_mapper
+from tabnabbing_checker import run_tabnabbing_checker
+from iframe_worker_checker import run_iframe_worker_checker
+from storage_service_checker import run_storage_service_checker
+from js_injector import run_js_injector
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -27,7 +33,13 @@ def main():
     print("C. CSP Analyzer")
     print("R. Open Redirect Checker")
     print("J. JWT Cracker")
-
+    print("U. Subdomain Analyzer")
+    print("E. CDN Edge Mapper")
+    print("T. Tabnabbing Checker")
+    print("I. Iframe & WebWorker Detector")
+    print("S. Storage & ServiceWorker Scanner")
+    print("X. JS Injector")
+    
     try:
         choice = input("Select a tool: ")
 
@@ -57,8 +69,20 @@ def main():
             run_open_redirect_checker()
         elif choice.upper() == "J":
             run_jwt_cracker()
+        elif choice.upper() == "U":
+            run_subdomain_analyzer()
+        elif choice.upper() == "E":
+            run_cdn_edge_mapper()
+        elif choice.upper() == "T":
+            run_tabnabbing_checker()
+        elif choice.upper() == "I":
+            run_iframe_worker_checker()
+        elif choice.upper() == "S":
+            run_storage_service_checker()
+        elif choice.upper() == "X":
+            run_js_injector()
         else:
-            print("Invalid selection.")
+            print("Invalid selection.")  
 
     except KeyboardInterrupt:
         print("\n[!] User terminated the toolkit session.")
