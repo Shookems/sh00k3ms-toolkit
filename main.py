@@ -18,6 +18,10 @@ from iframe_worker_checker import run_iframe_worker_checker
 from storage_service_checker import run_storage_service_checker
 from js_injector import run_js_injector
 from aws_cred_theft_detector import run_aws_cred_theft_detector
+from aws_priv_esc_analyzer import run_aws_priv_esc_analyzer
+from cloud_exfil_tester import run_cloud_exfil_tester
+from azure_security_tools import run_azure_security_tools
+from k8s_supply_chain_checker import run_k8s_supply_chain_checker
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -41,6 +45,10 @@ def main():
     print("S. Storage & ServiceWorker Scanner")
     print("X. JS Injector")
     print("A. AWS Credential Theft Detector")
+    print("P. AWS Privilege Escalation Analyzer")
+    print("Z. Cloud Exfil Tester")
+    print("M. Azure Security Tools")
+    print("K. K8s / Supply Chain Scanner")
     
     try:
         choice = input("Select a tool: ")
@@ -85,6 +93,14 @@ def main():
             run_js_injector()
         elif choice.upper() == "A":
             run_aws_cred_theft_detector()
+        elif choice.upper() == "P":
+            run_aws_priv_esc_analyzer()
+        elif choice.upper() == "Z":
+            run_cloud_exfil_tester()
+        elif choice.upper() == "M":
+            run_azure_security_tools()
+        elif choice.upper() == "K":
+            run_k8s_supply_chain_checker()
         else:
             print("Invalid selection.")  
 
