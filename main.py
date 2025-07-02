@@ -24,6 +24,7 @@ from azure_security_tools import run_azure_security_tools
 from k8s_supply_chain_checker import run_k8s_supply_chain_checker
 from payload_server import run_payload_server
 from loot_indexer import run_loot_indexer
+from report_assist import run_report_assist
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -53,6 +54,7 @@ def main():
     print("K. K8s / Supply Chain Scanner")
     print("Y. Payload Server")
     print("L. Loot Indexer")
+    print("V. Report Assist (CVSS / CWE / STRIDE)")
     
     try:
         choice = input("Select a tool: ")
@@ -109,6 +111,8 @@ def main():
             run_payload_server()
         elif choice.upper() == "L":
             run_loot_indexer()
+        elif choice.upper() == "V":
+            run_report_assist()
         else:
             print("Invalid selection.")  
 
