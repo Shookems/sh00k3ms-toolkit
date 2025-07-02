@@ -22,6 +22,7 @@ from aws_priv_esc_analyzer import run_aws_priv_esc_analyzer
 from cloud_exfil_tester import run_cloud_exfil_tester
 from azure_security_tools import run_azure_security_tools
 from k8s_supply_chain_checker import run_k8s_supply_chain_checker
+from payload_server import run_payload_server
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -49,6 +50,7 @@ def main():
     print("Z. Cloud Exfil Tester")
     print("M. Azure Security Tools")
     print("K. K8s / Supply Chain Scanner")
+    print("Y. Payload Server")
     
     try:
         choice = input("Select a tool: ")
@@ -101,6 +103,8 @@ def main():
             run_azure_security_tools()
         elif choice.upper() == "K":
             run_k8s_supply_chain_checker()
+        elif choice.upper() == "Y":
+            run_payload_server()
         else:
             print("Invalid selection.")  
 
