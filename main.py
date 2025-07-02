@@ -26,6 +26,7 @@ from payload_server import run_payload_server
 from loot_indexer import run_loot_indexer
 from report_assist import run_report_assist
 from exploit_chain_runner import run_exploit_chain_runner
+from api_fuzzer import run_api_fuzzer
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -57,6 +58,7 @@ def main():
     print("L. Loot Indexer")
     print("V. Report Assist (CVSS / CWE / STRIDE)")
     print("N. Exploit Chain Runner")
+    print("F. API Fuzzer")
     
     try:
         choice = input("Select a tool: ")
@@ -117,6 +119,8 @@ def main():
             run_report_assist()
         elif choice.upper() == "N":
             run_exploit_chain_runner()
+        elif choice.upper() == "F":
+            run_api_fuzzer()
         else:
             print("Invalid selection.")  
 
