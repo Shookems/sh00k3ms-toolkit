@@ -25,6 +25,7 @@ from k8s_supply_chain_checker import run_k8s_supply_chain_checker
 from payload_server import run_payload_server
 from loot_indexer import run_loot_indexer
 from report_assist import run_report_assist
+from exploit_chain_runner import run_exploit_chain_runner
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -55,6 +56,7 @@ def main():
     print("Y. Payload Server")
     print("L. Loot Indexer")
     print("V. Report Assist (CVSS / CWE / STRIDE)")
+    print("N. Exploit Chain Runner")
     
     try:
         choice = input("Select a tool: ")
@@ -113,6 +115,8 @@ def main():
             run_loot_indexer()
         elif choice.upper() == "V":
             run_report_assist()
+        elif choice.upper() == "N":
+            run_exploit_chain_runner()
         else:
             print("Invalid selection.")  
 
