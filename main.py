@@ -31,6 +31,7 @@ from waf_fuzzer import run_waf_fuzzer
 from ics_scanner import run_ics_scanner
 from iot_scanner import run_iot_scanner
 from sip_scanner import run_sip_scanner
+from lateral_movement import run_lateral_movement
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -67,6 +68,7 @@ def main():
     print("D. ICS/SCADA Scanner")
     print("O. IoT Device Scanner")
     print("Q. SIP Scanner")
+    print("B. Lateral Movement Scanner")
     
     try:
         choice = input("Select a tool: ")
@@ -137,6 +139,8 @@ def main():
             run_iot_scanner()
         elif choice.upper() == "Q":
             run_sip_scanner()
+        elif choice.upper() == "B":
+            run_lateral_movement()
         else:
             print("Invalid selection.")  
 
