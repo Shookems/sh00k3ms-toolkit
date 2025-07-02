@@ -28,6 +28,7 @@ from report_assist import run_report_assist
 from exploit_chain_runner import run_exploit_chain_runner
 from api_fuzzer import run_api_fuzzer
 from waf_fuzzer import run_waf_fuzzer
+from ics_scanner import run_ics_scanner
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -61,6 +62,7 @@ def main():
     print("N. Exploit Chain Runner")
     print("F. API Fuzzer")
     print("W. WAF Fuzzer")
+    print("D. ICS/SCADA Scanner")
     
     try:
         choice = input("Select a tool: ")
@@ -125,6 +127,8 @@ def main():
             run_api_fuzzer()
         elif choice.upper() == "W":
             run_waf_fuzzer()
+        elif choice.upper() == "D":
+            run_ics_scanner()
         else:
             print("Invalid selection.")  
 
