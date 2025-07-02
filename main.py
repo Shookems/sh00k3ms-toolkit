@@ -23,6 +23,7 @@ from cloud_exfil_tester import run_cloud_exfil_tester
 from azure_security_tools import run_azure_security_tools
 from k8s_supply_chain_checker import run_k8s_supply_chain_checker
 from payload_server import run_payload_server
+from loot_indexer import run_loot_indexer
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -51,6 +52,7 @@ def main():
     print("M. Azure Security Tools")
     print("K. K8s / Supply Chain Scanner")
     print("Y. Payload Server")
+    print("L. Loot Indexer")
     
     try:
         choice = input("Select a tool: ")
@@ -105,6 +107,8 @@ def main():
             run_k8s_supply_chain_checker()
         elif choice.upper() == "Y":
             run_payload_server()
+        elif choice.upper() == "L":
+            run_loot_indexer()
         else:
             print("Invalid selection.")  
 
