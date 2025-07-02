@@ -29,6 +29,7 @@ from exploit_chain_runner import run_exploit_chain_runner
 from api_fuzzer import run_api_fuzzer
 from waf_fuzzer import run_waf_fuzzer
 from ics_scanner import run_ics_scanner
+from iot_scanner import run_iot_scanner
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -63,6 +64,7 @@ def main():
     print("F. API Fuzzer")
     print("W. WAF Fuzzer")
     print("D. ICS/SCADA Scanner")
+    print("O. IoT Device Scanner")
     
     try:
         choice = input("Select a tool: ")
@@ -129,6 +131,8 @@ def main():
             run_waf_fuzzer()
         elif choice.upper() == "D":
             run_ics_scanner()
+        elif choice.upper() == "O":
+            run_iot_scanner()
         else:
             print("Invalid selection.")  
 
