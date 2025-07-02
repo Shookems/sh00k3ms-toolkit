@@ -1,0 +1,2 @@
+{'type': 'SMS Phish', 'message': "We've detected suspicious login activity. Reset your password: {link}", 'link': '', 'timestamp': '2025-07-02T22:17:28.955815'}
+{'type': 'Voice Pretext', 'script': "This is the security desk. We've noticed unusual account activity and require urgent confirmation.", 'timestamp': '2025-07-02T22:17:28.956977'}

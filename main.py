@@ -33,6 +33,7 @@ from iot_scanner import run_iot_scanner
 from sip_scanner import run_sip_scanner
 from lateral_movement import run_lateral_movement
 from red_team_tools import run_red_team_tools
+from social_engineer import run_social_engineer
 
 def main():
     print("=== Sh00k3ms Toolkit ===")
@@ -71,6 +72,7 @@ def main():
     print("Q. SIP Scanner")
     print("B. Lateral Movement Scanner")
     print("G. Red Team Support Suite")
+    print("SE. Social Engineering Module")
     
     try:
         choice = input("Select a tool: ")
@@ -145,6 +147,8 @@ def main():
             run_lateral_movement()
         elif choice.upper() == "G":
             run_red_team_tools()
+        elif choice.upper() == "SE":
+            run_social_engineer()
         else:
             print("Invalid selection.")  
 
