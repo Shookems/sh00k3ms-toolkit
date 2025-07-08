@@ -1,1 +1,0 @@
-{'url': 'evilsite.com', 'error': "Invalid URL 'evilsite.com': No scheme supplied. Perhaps you meant https://evilsite.com?", 'timestamp': '2025-06-30T21:38:55.894763'}

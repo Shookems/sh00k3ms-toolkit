@@ -1,1 +1,0 @@
-{'url': 'www.evilsite.com', 'param': 'login', 'payload_type': 'java', 'mode': 'passive', 'status_code': 'ERROR', 'error': "Invalid URL 'www.evilsite.com': No scheme supplied. Perhaps you meant https://www.evilsite.com?", 'timestamp': '2025-06-30T21:18:34.421819'}
