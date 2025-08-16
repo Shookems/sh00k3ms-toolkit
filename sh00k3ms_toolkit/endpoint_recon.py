@@ -1,118 +1,56 @@
+from __future__ import annotations
+import logging
 import requests
-from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
-import re
-import csv
-import threading
-from queue import Queue
-from datetime import datetime
 
-# Expanded payloads
-payloads = {
-    "xss": ["<script>alert(1)</script>", "\"><img src=x onerror=alert(1)>", "'><svg/onload=alert(1)>"],
-    "sqli": ["' OR 1=1--", "'; DROP TABLE users;", "' UNION SELECT NULL, NULL --"],
-    "cmd": ["; uname -a", "| whoami", "& ping -c 1 evil.com"],
-    "redirect": ["https://evil.com", "//evil.com", "/\\evil.com"]
-}
+log = logging.getLogger("sh00k3ms.endpoint")
 
-headers_to_check = ["Location", "Content-Location", "Refresh"]
-results = []
-lock = threading.Lock()
-
-def build_urls(base_url, param, test_type, payload_list):
-    parsed = urlparse(base_url)
-    params = parse_qs(parsed.query)
-    urls = []
-
-    for payload in payload_list:
-        new_params = params.copy()
-        new_params[param] = [payload]
-        encoded = urlencode(new_params, doseq=True)
-        new_url = urlunparse(parsed._replace(query=encoded))
-        urls.append((param, test_type, payload, new_url))
-    return urls
-
-def test_url(param, test_type, payload, url):
+def _try(method: str, url: str, **kw):
     try:
-        res = requests.get(url, timeout=5, allow_redirects=True)
-        body = res.text.lower()
-        status = "SAFE"
-
-        if test_type == "xss" and payload.lower() in body:
-            status = "POSSIBLE (payload reflected)"
-        elif test_type == "sqli" and re.search(r"(sql|syntax|database|mysql|error|query)", body):
-            status = "POSSIBLE (SQL error detected)"
-        elif test_type == "cmd" and re.search(r"(linux|unix|kernel|ubuntu|root|user)", body):
-            status = "POSSIBLE (cmd output)"
-        elif test_type == "redirect":
-            for h in headers_to_check:
-                if h in res.headers and any(p in res.headers[h].lower() for p in ["evil.com", "http"]):
-                    status = f"POSSIBLE (redirect via {h})"
-
-        with lock:
-            results.append({
-                "parameter": param,
-                "test_type": test_type,
-                "payload": payload,
-                "status": status,
-                "url": url
-            })
+        return requests.request(method, url, timeout=10, **kw)
     except Exception as e:
-        with lock:
-            results.append({
-                "parameter": param,
-                "test_type": test_type,
-                "payload": payload,
-                "status": f"ERROR: {str(e)}",
-                "url": url
-            })
+        log.debug("request %s %s failed: %s", method, url, e)
+        return None
 
-def worker(queue):
-    while not queue.empty():
-        param, test_type, payload, url = queue.get()
-        test_url(param, test_type, payload, url)
-        queue.task_done()
+def run_endpoint_recon(url: str | None = None) -> None:
+    """
+    Quick endpoint recon:
+      - HEAD for status/headers
+      - GET robots.txt (if same origin)
+      - OPTIONS to see allowed methods
+      - GET for CSP/Server headers
+    """
+    if not url:
+        print("Usage: sh00k3ms endpoint <url>")
+        return
 
-def run_recon(base_url):
-    parsed = urlparse(base_url)
-    params = parse_qs(parsed.query)
-    queue = Queue()
+    print(f"[+] Probing {url}")
+    r_head = _try("HEAD", url)
+    if r_head is not None:
+        print(f"STATUS: {r_head.status_code}")
+        for k, v in sorted(r_head.headers.items()):
+            if k.lower() in {"server", "x-powered-by", "content-type", "content-security-policy"}:
+                print(f"{k}: {v}")
 
-    for param in params:
-        for test_type, payload_list in payloads.items():
-            for item in build_urls(base_url, param, test_type, payload_list):
-                queue.put(item)
+    # OPTIONS
+    r_opt = _try("OPTIONS", url)
+    if r_opt is not None and "allow" in r_opt.headers:
+        print(f"ALLOW: {r_opt.headers.get('Allow')}")
 
-    threads = []
-    for _ in range(10):  # 10 threads
-        t = threading.Thread(target=worker, args=(queue,))
-        t.daemon = True
-        t.start()
-        threads.append(t)
+    # GET main page
+    r_get = _try("GET", url)
+    if r_get is not None:
+        for k in ("Server", "X-Powered-By", "Content-Security-Policy", "Strict-Transport-Security"):
+            if k in r_get.headers:
+                print(f"{k}: {r_get.headers[k]}")
 
-    queue.join()
-
-def run_endpoint_recon():
-    print("Running endpoint recon...")
-    base_url = input("Enter a URL to scan: ").strip()
-    run_recon(base_url)
-
-def save_results_to_csv(filename="recon_results.csv"):
-    with open(filename, mode='w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=["parameter", "test_type", "payload", "status", "url"])
-        writer.writeheader()
-        writer.writerows(results)
-    print(f"Results saved to {filename}")
-
-def main():
-    url = input("Enter the full URL with parameters: ").strip()
-    print("Running recon, please wait...")
-    run_recon(url)
-    for r in results:
-        print(f"[{r['test_type'].upper()}] Param: {r['parameter']} | Status: {r['status']}")
-
-    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    save_results_to_csv(f"recon_results_{ts}.csv")
-
-if __name__ == "__main__":
-    main()
-
+    # robots.txt (same origin only)
+    try:
+        from urllib.parse import urlsplit, urlunsplit
+        parts = urlsplit(url)
+        robots = urlunsplit((parts.scheme, parts.netloc, "/robots.txt", "", ""))
+        r_robots = _try("GET", robots)
+        if r_robots is not None and r_robots.ok:
+            print("\n--- robots.txt ---")
+            print(r_robots.text[:2000])  # avoid flooding
+    except Exception as e:
+        log.debug("robots fetch failed: %s", e)
