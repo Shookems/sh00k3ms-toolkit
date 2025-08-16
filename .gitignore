@@ -1,16 +1,7 @@
-# Byte-compiled / cache files
+.venv/
 __pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-
-# Virtual environments
-venv/
-.env/
-
-# macOS system files
-.DS_Store
-
-# VS Code project settings
-.vscode/
-
+*.pyc
+.env
+dist/
+build/
+*.egg-info/

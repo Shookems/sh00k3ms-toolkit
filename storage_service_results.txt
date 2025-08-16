@@ -1,0 +1,3 @@
+{'url': 'https://caregiverportal.demo-uat.dex.care', 'storage_usage': {'localStorage': False, 'sessionStorage': False, 'indexedDB': False, 'serviceWorker': False}, 'timestamp': '2025-07-09T21:33:02.575712'}
+{'url': 'https://management.demo-uat.dex.care', 'storage_usage': {'localStorage': False, 'sessionStorage': False, 'indexedDB': False, 'serviceWorker': False}, 'timestamp': '2025-07-09T21:33:02.584665'}
+{'url': 'https://core.womp.it/', 'storage_usage': {'localStorage': False, 'sessionStorage': False, 'indexedDB': False, 'serviceWorker': True}, 'timestamp': '2025-07-09T21:33:02.719965'}
